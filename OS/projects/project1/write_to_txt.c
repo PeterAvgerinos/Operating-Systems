@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -8,8 +7,8 @@
 #include <sys/stat.h>
 
 bool file_exists (char *filename) {
-  struct stat   buffer;   
-  return (stat (filename, &buffer) == 0);
+  struct stat buffer; 
+  return (stat (filename, &buffer) == 0); 
 }
 
 int main(int argc, char* argv[]){ 
@@ -36,22 +35,19 @@ int main(int argc, char* argv[]){
     fp = fopen(prompt, "w");
     pid_t child = fork();
 
-
     if (child < 0){ 
         exit(1);
     }
 
     if (child == 0){ 
-        pid_t child_id = getpid();
-        fprintf(fp,"I am child %d\n", child_id);
+        fprintf(fp,"[CHILD] getpid()=%d, getppid()=%d\n", getpid(), getppid());
     }
     else {
-        pid_t parent_id = getppid();
-        fprintf(fp,"I am parent %d\n", parent_id);
+        wait(&status);
+        fprintf(fp,"[PARENT] getpid()=%d, getppid()=%d\n", getpid(), getppid());
     }
     fclose(fp);
 
-    wait(&status);
     free(prompt);
 
     exit(0);
