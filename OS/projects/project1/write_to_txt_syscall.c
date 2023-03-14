@@ -46,16 +46,13 @@ int main(int argc, char* argv[]){
 
     if (child == 0){ 
         j = snprintf(buffer, max_len, "[CHILD] getpid()=%d, getppid()=%d \n", getpid(), getppid());
-        if (j>0){
-            write(fd, buffer, strlen(buffer));
-        }
+        if (j>0) write(fd, buffer, max_len);
     }
     else {
         wait(&status);
         j = snprintf(buffer, max_len, "[PARENT] getpid()=%d, getppid()=%d \n", getpid(), getppid());
-        if (j>0){
-            write(fd, buffer, strlen(buffer));
-        }
+        if (j>0) write(fd, buffer, max_len);
+        
     }
 
     close(fd);
